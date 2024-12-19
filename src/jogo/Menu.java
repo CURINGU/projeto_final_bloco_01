@@ -1,5 +1,6 @@
 package jogo;
 import java.io.IOException;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 import jogo.model.JogoFisico;
 import jogo.controller.JogoController;
@@ -59,36 +60,82 @@ public class Menu {
 					
 					boolean repetirMidia = true;
 					do {
-						System.out.println("Digite o Tipo de Mídia (1-Física ou 2-Digital): ");
-						midia = leia.nextInt();
-						if(midia > 2 || midia < 1)
+						try {
+							System.out.println("Digite o Tipo de Mídia (1-Física ou 2-Digital): ");
+							midia = leia.nextInt();
+							if(midia > 2 || midia < 1)
+							{
+								System.out.println("Tipo Inválido!");
+							}
+							else
+							{
+								repetirMidia = false;
+							}
+						} catch(InputMismatchException e)
 						{
-							System.out.println("Tipo Inválido!");
+							System.out.println("Entrada inválida! Digite apenas 1 ou 2");
+					        leia.nextLine();
 						}
-						else
-						{
-							repetirMidia = false;
-						}
+						
 					} while(repetirMidia);
 					
 					boolean repetirPreco = true;
 					do {
-						System.out.println("Digite o Preço do jogo (R$): ");
-						preco = leia.nextFloat();
-						repetirPreco = false;
+						try {
+							System.out.println("Digite o Preço do jogo (R$): ");
+							preco = leia.nextFloat();
+							if (preco < 0) {
+					            System.out.println("O preço não pode ser negativo");
+					        } else {
+					            repetirPreco = false;
+					        }
+						} catch(InputMismatchException e)
+						{
+							System.out.println("Entrada inválida!");
+					        leia.nextLine();
+						}
+						
 					} while(repetirPreco);
 					
 					
 					switch(midia) {
 					case 1 -> {
-							System.out.println("Digite o Mínimo de dias para Entrega: ");
-							minDias = leia.nextInt();
-							jogos.cadastrar(new JogoFisico(jogos.gerarId(), nome, plataforma, classificacao, midia, preco, minDias));
+						boolean repetirMinDias = true;
+							do {
+						        try {
+						            System.out.println("Digite o Mínimo de dias para Entrega: ");
+						            minDias = leia.nextInt();
+	
+						            if (minDias < 0) {
+						                System.out.println("O número de dias não pode ser negativo");
+						            } else {
+						                repetirMinDias = false;
+						                jogos.cadastrar(new JogoFisico(jogos.gerarId(), nome, plataforma, classificacao, midia, preco, minDias));
+						            }
+						        } catch (InputMismatchException e) {
+						            System.out.println("Entrada inválida!");
+						            leia.nextLine();
+						        }
+						    } while (repetirMinDias);
 						}
 					case 2 -> {
-						System.out.println("Digite o Tamanho do jogo (GB): ");
-						tamanho = leia.nextInt();
-						jogos.cadastrar(new JogoDigital(jogos.gerarId(), nome, plataforma, classificacao, midia, preco, tamanho));
+						boolean repetirTamanho = true;
+						    do {
+						        try {
+						            System.out.println("Digite o Tamanho do jogo (GB): ");
+						            tamanho = leia.nextInt();
+	
+						            if (tamanho < 0) {
+						                System.out.println("O tamanho do jogo não pode ser negativo");
+						            } else {
+						                repetirTamanho = false;
+						                jogos.cadastrar(new JogoDigital(jogos.gerarId(), nome, plataforma, classificacao, midia, preco, tamanho));
+						            }
+						        } catch (InputMismatchException e) {
+						            System.out.println("Entrada inválida!");
+						            leia.nextLine(); // Limpa o buffer de entrada.
+						        }
+						    } while (repetirTamanho);
 						}
 					}
 					keyPress();
@@ -124,22 +171,61 @@ public class Menu {
 						
 						boolean repetirPreco1 = true;
 						do {
-							System.out.println("Digite o Preço do jogo (R$): ");
-							preco = leia.nextFloat();
-							repetirPreco1 = false;
+							try {
+								System.out.println("Digite o Preço do jogo (R$): ");
+								preco = leia.nextFloat();
+								if (preco < 0) {
+						            System.out.println("O preço não pode ser negativo");
+						        } else {
+						            repetirPreco1 = false;
+						        }
+							} catch(InputMismatchException e)
+							{
+								System.out.println("Entrada inválida!");
+						        leia.nextLine();
+							}
+							
 						} while(repetirPreco1);
 						
 						
 						switch(midia) {
 						case 1 -> {
-								System.out.println("Digite o Mínimo de dias para Entrega: ");
-								minDias = leia.nextInt();
-								jogos.cadastrar(new JogoFisico(jogos.gerarId(), nome, plataforma, classificacao, midia, preco, minDias));
+							boolean repetirMinDias = true;
+								do {
+							        try {
+							            System.out.println("Digite o Mínimo de dias para Entrega: ");
+							            minDias = leia.nextInt();
+		
+							            if (minDias < 0) {
+							                System.out.println("O número de dias não pode ser negativo");
+							            } else {
+							                repetirMinDias = false;
+							                jogos.cadastrar(new JogoFisico(jogos.gerarId(), nome, plataforma, classificacao, midia, preco, minDias));
+							            }
+							        } catch (InputMismatchException e) {
+							            System.out.println("Entrada inválida!");
+							            leia.nextLine();
+							        }
+							    } while (repetirMinDias);
 							}
 						case 2 -> {
-							System.out.println("Digite o Tamanho do jogo (GB): ");
-							tamanho = leia.nextInt();
-							jogos.cadastrar(new JogoDigital(jogos.gerarId(), nome, plataforma, classificacao, midia, preco, tamanho));
+							boolean repetirTamanho = true;
+							    do {
+							        try {
+							            System.out.println("Digite o Tamanho do jogo (GB): ");
+							            tamanho = leia.nextInt();
+		
+							            if (tamanho < 0) {
+							                System.out.println("O tamanho do jogo não pode ser negativo");
+							            } else {
+							                repetirTamanho = false;
+							                jogos.cadastrar(new JogoDigital(jogos.gerarId(), nome, plataforma, classificacao, midia, preco, tamanho));
+							            }
+							        } catch (InputMismatchException e) {
+							            System.out.println("Entrada inválida!");
+							            leia.nextLine(); // Limpa o buffer de entrada.
+							        }
+							    } while (repetirTamanho);
 							}
 						}
 					}
