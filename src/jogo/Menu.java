@@ -1,6 +1,8 @@
 package jogo;
 import java.io.IOException;
 import java.util.Scanner;
+import jogo.model.JogoFisico;
+import jogo.model.JogoDigital;
 
 public class Menu {
 
@@ -8,6 +10,12 @@ public class Menu {
 		Scanner leia = new Scanner(System.in);
 
 		int opcao;
+		
+		JogoFisico jf1 = new JogoFisico(1, "GTA VI", "Playstation 5", "+18", 1, 499f);
+		jf1.visualizar();
+		
+		JogoDigital jd1 = new JogoDigital(1, "GTA VI", "Playstation 5", "+18", 1, 499f, 250);
+		jd1.visualizar();
 
 		while (true) {
 
