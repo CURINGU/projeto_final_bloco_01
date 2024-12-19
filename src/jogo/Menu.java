@@ -2,20 +2,26 @@ package jogo;
 import java.io.IOException;
 import java.util.Scanner;
 import jogo.model.JogoFisico;
+import jogo.controller.JogoController;
 import jogo.model.JogoDigital;
 
 public class Menu {
 
 	public static void main(String[] args) {
 		Scanner leia = new Scanner(System.in);
+		JogoController jogos = new JogoController();
 
 		int opcao;
 		
-		JogoFisico jf1 = new JogoFisico(1, "GTA VI", "Playstation 5", "+18", 1, 499f);
+		JogoFisico jf1 = new JogoFisico(1, "GTA VI", "Playstation 5", "+18", 1, 499f, 5);
 		jf1.visualizar();
 		
 		JogoDigital jd1 = new JogoDigital(1, "GTA VI", "Playstation 5", "+18", 1, 499f, 250);
 		jd1.visualizar();
+		
+		int id, midia = 0, minDias, tamanho;
+		String nome, plataforma, classificacao;
+		float preco = 0;
 
 		while (true) {
 
@@ -39,22 +45,117 @@ public class Menu {
 			switch (opcao) {
 				case 1:
 					System.out.println("Cadastrar Jogo\n\n");
+					System.out.println("Digite o Nome do Jogo: ");
+					leia.skip("\\R?");
+					nome = leia.nextLine();
 					
+					System.out.println("Digite a Plataforma do Jogo: ");
+					leia.skip("\\R?");
+					plataforma = leia.nextLine();
+					
+					System.out.println("Digite a Classificação do Jogo: ");
+					leia.skip("\\R?");
+					classificacao = leia.nextLine();
+					
+					boolean repetirMidia = true;
+					do {
+						System.out.println("Digite o Tipo de Mídia (1-Física ou 2-Digital): ");
+						midia = leia.nextInt();
+						if(midia > 2 || midia < 1)
+						{
+							System.out.println("Tipo Inválido!");
+						}
+						else
+						{
+							repetirMidia = false;
+						}
+					} while(repetirMidia);
+					
+					boolean repetirPreco = true;
+					do {
+						System.out.println("Digite o Preço do jogo (R$): ");
+						preco = leia.nextFloat();
+						repetirPreco = false;
+					} while(repetirPreco);
+					
+					
+					switch(midia) {
+					case 1 -> {
+							System.out.println("Digite o Mínimo de dias para Entrega: ");
+							minDias = leia.nextInt();
+							jogos.cadastrar(new JogoFisico(jogos.gerarId(), nome, plataforma, classificacao, midia, preco, minDias));
+						}
+					case 2 -> {
+						System.out.println("Digite o Tamanho do jogo (GB): ");
+						tamanho = leia.nextInt();
+						jogos.cadastrar(new JogoDigital(jogos.gerarId(), nome, plataforma, classificacao, midia, preco, tamanho));
+						}
+					}
 					keyPress();
 					break;
 				case 2:
 					System.out.println("Listar todos os Jogos\n\n");
-					
+					jogos.listarTodos();
 					keyPress();
 					break;
 				case 3:
 					System.out.println("Atualizar jogo\n\n");
-
+					
+					System.out.println("Digite o ID do jogo: ");
+					id = leia.nextInt();
+					
+					var buscaJogo = jogos.buscarNaCollection(id);
+					
+					if(buscaJogo != null)
+					{
+						midia = buscaJogo.getMidia();
+						
+						System.out.println("Digite o Nome do Jogo: ");
+						leia.skip("\\R?");
+						nome = leia.nextLine();
+						
+						System.out.println("Digite a Plataforma do Jogo: ");
+						leia.skip("\\R?");
+						plataforma = leia.nextLine();
+						
+						System.out.println("Digite a Classificação do Jogo: ");
+						leia.skip("\\R?");
+						classificacao = leia.nextLine();
+						
+						boolean repetirPreco1 = true;
+						do {
+							System.out.println("Digite o Preço do jogo (R$): ");
+							preco = leia.nextFloat();
+							repetirPreco1 = false;
+						} while(repetirPreco1);
+						
+						
+						switch(midia) {
+						case 1 -> {
+								System.out.println("Digite o Mínimo de dias para Entrega: ");
+								minDias = leia.nextInt();
+								jogos.cadastrar(new JogoFisico(jogos.gerarId(), nome, plataforma, classificacao, midia, preco, minDias));
+							}
+						case 2 -> {
+							System.out.println("Digite o Tamanho do jogo (GB): ");
+							tamanho = leia.nextInt();
+							jogos.cadastrar(new JogoDigital(jogos.gerarId(), nome, plataforma, classificacao, midia, preco, tamanho));
+							}
+						}
+					}
+					else
+					{
+						System.out.println("O Jogo não foi encontrado!");
+					}
 					keyPress();
 					break;
 				case 4:
 					System.out.println("Deletar jogo\n\n");
-
+					
+					System.out.println("Digite o ID do Jogo: ");
+					id = leia.nextInt();
+					
+					jogos.deletar(id);
 					keyPress();
 					break;
 				default:

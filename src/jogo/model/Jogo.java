@@ -33,8 +33,8 @@ public abstract class Jogo {
 		System.out.println("Nome: " + this.nome);
 		System.out.println("Plataforma: " + plataforma);
 		System.out.println("classificacao: " + this.classificacao);
-		System.out.println("Tipo de Mídia do jogo: " + tipoMidia);
-		System.out.println("Preco: " + this.preco);
+		System.out.println("Tipo de Mídia: " + tipoMidia);
+		System.out.println("Preco: " + this.preco + "R$");
 	}
 
 	public int getId() {
